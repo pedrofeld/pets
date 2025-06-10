@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 // import { } from './middleware.js';
-import { pets } from './dados';
+import { pets } from './dados.js';
 // import { randomUUID } from 'crypto'; 
 dotenv.config();
 
