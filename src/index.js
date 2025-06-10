@@ -2,7 +2,7 @@ const express = require('express');
 import * as dotenv from 'dotenv';
 import cors from 'cors';
 // import { } from './middleware.js';
-// import { } from './dados.js';
+import { pets } from './dados';
 // import { randomUUID } from 'crypto'; 
 dotenv.config();
 
