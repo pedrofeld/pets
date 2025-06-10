@@ -10,6 +10,27 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get('/pets', (req, res) => {
+  try {
+    const { nome, raca, idade, nomeTutor } = req.query;
+
+    let dados = pets;
+
+    res.status(200).send({
+            ok: true,
+            mensagem: "Pets listados com sucesso",
+            dados
+    });
+  } catch (error) {
+    console.log(error);
+        res.status(500).send({
+            ok: false,
+            mensagem: "Erro ao listar pets",
+            erro: error.message
+        });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
