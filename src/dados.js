@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-export const dados = [
+export const pets = [
     {
         id: randomUUID(),
         nome: 'Atlas',
