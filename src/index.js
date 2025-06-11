@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-// import { } from './middleware.js';
+import { validarCampos } from './middleware.js';
 import { pets } from './dados.js';
 import { randomUUID } from 'crypto'; 
 dotenv.config();
@@ -33,16 +33,9 @@ app.get('/pets', (req, res) => {
 });
 
 // Criar pet
-app.post("/pets", (req, res) => {
+app.post("/pets", [validarCampos], (req, res) => {
   try {
     const { nome, raca, idade, nomeTutor } = req.body;
-
-    if (!nome || !raca || !idade || !nomeTutor) {
-      return res.status(400).send({
-        ok: false,
-        mensagem: "Todos os campos são obrigatórios"
-      });
-    }
 
     const novoPet = {
       id: randomUUID(),
@@ -98,7 +91,7 @@ app.get("/pets/:id", (req, res) => {
 });
 
 // Atualizar pet
-app.put("/pets/:id", (req, res) => {
+app.put("/pets/:id", [validarCampos], (req, res) => {
   try {
     const id = req.params.id;
     const { nome, raca, idade, nomeTutor } = req.body;
@@ -109,13 +102,6 @@ app.put("/pets/:id", (req, res) => {
       return res.status(404).send({
         ok: false,
         mensagem: "Pet não encontrado"
-      });
-    }
-
-    if (!nome || !raca || !idade || !nomeTutor) {
-      return res.status(400).send({
-        ok: false,
-        mensagem: "Todos os campos são obrigatórios"
       });
     }
 
