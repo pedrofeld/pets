@@ -97,6 +97,45 @@ app.get("/pets/:id", (req, res) => {
   }
 });
 
+// Atualizar pet
+app.put("/pets/:id", (req, res) => {
+  try {
+    const id = req.params.id;
+    const { nome, raca, idade, nomeTutor } = req.body;
+
+    const petIndex = pets.findIndex(p => p.id === id);
+
+    if (petIndex === -1) {
+      return res.status(404).send({
+        ok: false,
+        mensagem: "Pet não encontrado"
+      });
+    }
+
+    if (!nome || !raca || !idade || !nomeTutor) {
+      return res.status(400).send({
+        ok: false,
+        mensagem: "Todos os campos são obrigatórios"
+      });
+    }
+
+    pets[petIndex] = { id, nome, raca, idade, nomeTutor };
+
+    res.status(200).send({
+      ok: true,
+      mensagem: "Pet atualizado com sucesso",
+      dados: pets[petIndex]
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      ok: false,
+      mensagem: "Erro ao atualizar pet",
+      erro: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
