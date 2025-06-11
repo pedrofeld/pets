@@ -1,7 +1,7 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
-import { validarCampos } from './middleware.js';
+import { validarCampos, validarId, validarIndex } from './middleware.js';
 import { pets } from './dados.js';
 import { randomUUID } from 'crypto'; 
 dotenv.config();
@@ -63,7 +63,7 @@ app.post("/pets", [validarCampos], (req, res) => {
 })
 
 // Obter pet por ID
-app.get("/pets/:id", (req, res) => {
+app.get("/pets/:id", [validarId], (req, res) => {
   try {
       const id = req.params.id;
 
@@ -91,19 +91,12 @@ app.get("/pets/:id", (req, res) => {
 });
 
 // Atualizar pet
-app.put("/pets/:id", [validarCampos], (req, res) => {
+app.put("/pets/:id", [validarCampos, validarId, validarIndex], (req, res) => {
   try {
     const id = req.params.id;
     const { nome, raca, idade, nomeTutor } = req.body;
 
     const petIndex = pets.findIndex(p => p.id === id);
-
-    if (petIndex < 0) {
-      return res.status(404).send({
-        ok: false,
-        mensagem: "Pet não encontrado"
-      });
-    }
 
     pets[petIndex] = { id, nome, raca, idade, nomeTutor };
 
@@ -123,18 +116,11 @@ app.put("/pets/:id", [validarCampos], (req, res) => {
 });
 
 // Deletar pet
-app.delete("/pets/:id", (req, res) => {
+app.delete("/pets/:id", [validarId, validarIndex], (req, res) => {
   try {
     const id = req.params.id;
 
     const petIndex = pets.findIndex(p => p.id === id);
-
-    if (petIndex < 0) {
-      return res.status(404).send({
-        ok: false,
-        mensagem: "Pet não encontrado"
-      });
-    }
 
     pets.splice(petIndex, 1);
 
