@@ -17,3 +17,23 @@ export const validarCampos = (req, res, next) => {
         });
     }
 };
+
+export const validarId = (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        if (!id) {
+            return res.status(400).send({
+                ok: false,
+                mensagem: "ID é obrigatório"
+            });
+        }
+
+        next();
+    } catch (error) {
+        res.status(500).send({
+            ok: false,
+            erro: error.message
+        });
+    }
+}
