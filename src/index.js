@@ -105,7 +105,7 @@ app.put("/pets/:id", (req, res) => {
 
     const petIndex = pets.findIndex(p => p.id === id);
 
-    if (petIndex === -1) {
+    if (petIndex < 0) {
       return res.status(404).send({
         ok: false,
         mensagem: "Pet não encontrado"
