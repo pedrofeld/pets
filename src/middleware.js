@@ -1,3 +1,5 @@
+import { pets } from "./dados.js";
+
 export const validarCampos = (req, res, next) => {
     try {
         const { nome, raca, idade, nomeTutor } = req.body;
