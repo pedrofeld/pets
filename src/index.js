@@ -136,6 +136,37 @@ app.put("/pets/:id", (req, res) => {
   }
 });
 
+// Deletar pet
+app.delete("/pets/:id", (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const petIndex = pets.findIndex(p => p.id === id);
+
+    if (petIndex < 0) {
+      return res.status(404).send({
+        ok: false,
+        mensagem: "Pet não encontrado"
+      });
+    }
+
+    pets.splice(petIndex, 1);
+
+    res.status(200).send({
+      ok: true,
+      mensagem: "Pet deletado com sucesso",
+      dados: pets
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      ok: false,
+      mensagem: "Erro ao deletar pet",
+      erro: error.message
+    });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
