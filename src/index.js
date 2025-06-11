@@ -45,7 +45,7 @@ app.post("/pets", (req, res) => {
     }
 
     const novoPet = {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       nome,
       raca,
       idade,
